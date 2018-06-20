@@ -1,0 +1,15 @@
+---
+
+- hosts: zero_showcase_shc
+  become: yes
+  vars:
+    user: splunk
+    user_group: wheel
+    ansible_user: splunk
+    ansible_ssh_private_key_file: ~/.ssh/splunk.key
+#    cluster_label: zero-shc-prod-sv3
+#    auth_cred: admin:Splunk3r
+#    splunk_user: splunk
+  roles:
+    - splunk_shc_init
+    - splunk_gen_restart

@@ -1,0 +1,49 @@
+---
+
+# - name: check app install state
+#   stat:
+#     path: '{{ splunk_home }}/etc/{{ deploy_dir }}/{{ item.repo }}'
+#   register: app_installed
+#   with_items: "{{ app_decom }}"
+#   become: yes
+
+- name: remove app from splunk deploy dir
+  become: yes
+  file:
+    path: '{{ splunk_home }}/etc/{{ deploy_dir }}/{{ item.repo }}'
+    state: absent
+  with_items: "{{ app_decom }}"
+  register: result
+  when:
+    - item.repo is defined
+    # - app_installed.stat.exists == true
+  ignore_errors: yes
+
+# - name: check app install state
+#   stat:
+#     path: '{{ splunk_home }}/etc/{{ deploy_dir }}/{{ item.repo }}'
+#   register: repo_present
+#   with_items: "{{ app_decom }}"
+#   become: yes
+
+- name: remove git repo from target
+  become: yes
+  file:
+    path: '{{ clone_path }}/{{ item.project }}/{{ item.repo }}'
+    state: absent
+  with_items: "{{ app_decom }}"
+  when:
+    - item.repo is defined
+    - item.project is defined
+    # - repo_present.stat.exists == true
+  ignore_errors: yes
+
+# - name: update managed apps (3 of 3)
+#   become: yes
+#   file:
+#    path: '{{ splunk_home }}/etc/{{ deploy_dir }}/'
+#    owner: splunk
+#    group: splunk
+#    mode: 0777
+#    state: directory
+#    recurse: yes

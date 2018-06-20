@@ -1,0 +1,13 @@
+---
+
+- hosts: serv_mon
+  vars:
+    splunk_user: splunk
+    splunk_cred: admin:Splunk3r
+    remote_user: admin
+    remote_password: Splunk3r
+#    uri: ['']
+#    mgmt_port: 8089
+  become: yes
+  roles:
+    - splunk_sh_add_search-peers-stand-alone

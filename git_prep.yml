@@ -1,0 +1,11 @@
+---
+
+- hosts: stage_shc_dp
+  vars:
+    user: splunk
+    user_group: wheel
+    ansible_user: splunk
+    ansible_ssh_private_key_file: ~/.ssh/splunk.key
+  become: yes
+  roles:
+    - git-prep

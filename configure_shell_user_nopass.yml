@@ -1,0 +1,8 @@
+---
+
+- hosts: sh_dua
+  vars:
+    user: acain
+  become: yes
+  roles:
+    - configure_shell_user_nopass

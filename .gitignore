@@ -1,0 +1,11 @@
+authentication.conf
+web.conf
+awx-auth.json
+git
+known_hosts
+alert_actions.conf
+authorized_keys
+splunkx_deploymentclient.conf
+git.key
+aws_rootcert.pem
+OktaCert.pem

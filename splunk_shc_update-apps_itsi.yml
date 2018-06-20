@@ -1,0 +1,55 @@
+---
+
+- hosts: itsi_apl
+  vars:
+    user: splunk
+    user_group: wheel
+    ansible_user: splunk
+    ansible_ssh_private_key_file: ~/.ssh/splunk.key
+# application deployment variables
+    deploy_dir: shcluster/apps
+    app_packages:
+# SplunkZero management apps
+      - { project: 'zero-id', repo: 'zero_idx-cluster', branch: '{{ idx_tag }}_SEARCH'}
+      - { project: 'zero-id', repo: 'zero_SHC-cluster', branch: '{{ shc_tag }}_SH'}
+      - { project: 'zero-id', repo: 'zero_prod', branch: 'master'}
+      - { project: 'zero-id', repo: 'zero_dsa', branch: 'df_changes'}
+      - { project: 'zero-id', repo: 'zero_rolemap', branch: 'master'}
+      - { project: 'zero-id', repo: '01-rolemap_itsi', branch: 'master'}
+      - { project: 'zero-id', repo: '01-rolemap_perm', branch: 'master'}
+      - { project: 'zero-id', repo: 'zero_auth_saml', branch: 'master'}
+# ITSI core apps
+      - { project: 'zero-sb', repo: 'DA-ITSI-APPSERVER', branch: 'master'}
+      - { project: 'zero-sb', repo: 'DA-ITSI-DATABASE', branch: 'master'}
+      - { project: 'zero-sb', repo: 'DA-ITSI-EUEM', branch: 'master'}
+      - { project: 'zero-sb', repo: 'DA-ITSI-LB', branch: 'master'}
+      - { project: 'zero-sb', repo: 'DA-ITSI-OS', branch: 'master'}
+      - { project: 'zero-sb', repo: 'DA-ITSI-STORAGE', branch: 'master'}
+      - { project: 'zero-sb', repo: 'DA-ITSI-VIRTUALIZATION', branch: 'master'}
+      - { project: 'zero-sb', repo: 'DA-ITSI-WEBSERVER', branch: 'master'}
+      - { project: 'zero-sb', repo: 'itsi', branch: 'master'}
+      - { project: 'zero-sb', repo: 'SA-IndexCreation', branch: 'master'}
+      - { project: 'zero-sb', repo: 'SA-ITOA', branch: 'master'}
+      - { project: 'zero-sb', repo: 'SA-ITSI-ATAD', branch: 'master'}
+      - { project: 'zero-sb', repo: 'SA-ITSI-CustomModuleViz', branch: 'master'}
+      - { project: 'zero-sb', repo: 'SA-ITSI-Licensechecker', branch: 'master'}
+      - { project: 'zero-sb', repo: 'SA-ITSI-MetricAD', branch: 'master'}
+      - { project: 'zero-sb', repo: 'SA-UserAccess', branch: 'master'}
+# ISTI extended packages
+      # - { project: 'zero-sb', repo: '', branch: 'master'}
+# Custom apps
+      - { project: 'zero-id', repo: 'splunk_it', branch: 'master'}
+      - { project: 'zero-ed', repo: 'google_drive', branch: 'master'}
+#    app_decom:
+#      - { project: 'zero-id', repo: 'zero_dsa' }
+#    app_backup:
+#      - { project: 'zero-cm', repo: 'shc-apps', branch: 'backup' }
+#    message: backup
+  roles:
+    - configure_host_vars
+    - configure_git-management
+#    - { role: splunk_gen_backup-local }
+#    - { role: splunk_shc_update-group-apps, when: result is changed }
+    - { role: splunk_gen_update-repo-apps, when: result is changed }
+#    - { role: splunk_gen_decom-apps, when: result is changed }
+    - splunk_shc_app_deploy

@@ -1,0 +1,12 @@
+---
+
+- hosts: showcase_cap
+  sudo: yes
+  vars:
+    user: splunk
+    user_group: wheel
+    ansible_user: splunk
+    ansible_ssh_private_key_file: ~/.ssh/splunk.key
+    cluster_members: "https://sv3-prdv-splk-190:8089, https://sv3-prdv-splk-191:8089, https://sv3-prdv-splk-192:8089, https://sv3-prdv-splk-193:8089"
+  roles:
+    - splunk_shc_cap_election

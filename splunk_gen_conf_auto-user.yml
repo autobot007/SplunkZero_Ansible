@@ -1,0 +1,12 @@
+---
+
+- hosts: sh_techmkt
+  vars:
+    user: acain
+    new_user: splunk
+    new_pass: critical.2.keep.safe
+    user_group: wheel
+  become: yes
+  roles:
+    - configure_shell_user_nopass
+    

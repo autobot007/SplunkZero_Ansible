@@ -1,0 +1,9 @@
+---
+
+- name: copy the known_hosts file
+  copy:
+    src: aws_rootcert.pem
+    dest: {{ splunk_home }}/etc/auth/
+    owner: splunk
+    group: splunk
+    mode: 0600
